@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestão de Suporte</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"
+        integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+<!--  <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">-->
+  {% block head %}
+  {% endblock %}
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container mt-3">
+{% with mensagens = get_flashed_messages(with_categories=True) %}
+{% if mensagens %}
+{% for categoria, mensagem in mensagens %}
+<div class="alert alert-{{ categoria }}">
+  {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+</div>
+{% block body %}
+
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
+        integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
