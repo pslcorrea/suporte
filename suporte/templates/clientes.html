@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <div class="container">
-    <h3>Cadastro de Clientes</h2>
-    <hr>
+  <div class="container col col-6 mt-5">
+    <card class="card p-3">
+      <form action="" method="post">
+        {{ form.csrf_token }}
+        <legend>Cadastro de Clientes</legend>
+        <fieldset>
+          <div class="imput-group mt-3">
+            {{ form.nome.label(class="label") }}
+            {{ form.nome(class="form-control", placeholder="Informe a razão social") }}
+          </div>
+          <div class="imput-group mt-3">
+            {{ form.botaoSubmit(class="form-control btn btn-dark") }}
+          </div>
+        </fieldset>
+
+      </form>
+      </card>
   </div>
 {% endblock %}

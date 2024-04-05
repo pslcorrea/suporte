@@ -1,15 +1,48 @@
-from flask import render_template, url_for
-from suporte import app
-
+from flask import render_template, url_for, redirect, flash, request
+from suporte import app, database
+from suporte.forms import FormCliente, FormAtendimento
+from suporte.models import Cliente, Atendimento
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    atendimentos = Atendimento.query.all()
+    return render_template('home.html', atendimentos=atendimentos)
 
 @app.route('/atendimentos', methods=['GET', 'POST'])
 def atendimentos():
-    return render_template('atendimentos.html')
+    form = FormAtendimento()
+    form.cliente.choices = [(cliente.id, cliente.nome) for cliente in Cliente.query.order_by(Cliente.nome)]
+    if form.validate_on_submit():
+        atendimento = Atendimento(id_cliente = form.cliente.data, titulo=form.titulo.data, descricao=form.descricao.data)
+        database.session.add(atendimento)
+        database.session.commit()
+        flash('Atendimento cadastrado com sucesso!','success')
+        return redirect(url_for('home'))
+    return render_template('atendimentos.html', form=form)
 
 @app.route('/clientes', methods=['GET', 'POST'])
 def clientes():
-    return render_template('clientes.html')
+    form = FormCliente()
+    if form.validate_on_submit():
+        cliente = Cliente(nome = form.nome.data)
+        database.session.add(cliente)
+        database.session.commit()
+        flash('Cliente cadastrado com sucesso!','success')
+        return redirect(url_for('home'))
+    return render_template('clientes.html',form=form)
+
+@app.route('/exibirAtendimento/<atendimento_id>', methods=['GET','POST'])
+def exibirAtendimento(atendimento_id):
+    atendimento = Atendimento.query.get(atendimento_id)
+    form = FormAtendimento()
+    if request.method == 'GET':
+        form.titulo.data = atendimento.titulo
+        form.descricao.data = atendimento.descricao
+    elif form.validate_on_submit():
+        atendimento.titulo = form.titulo.data
+        atendimento.descricao = form.descricao.data
+        atendimento.solucao = form.solucao.data
+        database.session.commit()
+        flash('Atendimento atualizado com sucesso!','success')
+        return redirect(url_for('home'))
+    return render_template('exibirAtendimento.html', atendimento=atendimento, form=form)
