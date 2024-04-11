@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <h3>Atendimentos Solucionados</h3>
+  <hr>
+  <section id="chamados-abertos">
+    <table class="table table-hover">
+      <tbody>
+      <tr>
+        {% for atendimento in atendimentos %}
+        <td>{{atendimento.titulo}}</td>
+        <td>{{atendimento.solucao}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p>Lista de soluções ...</p>
+  </section>
+</div>
+{% endblock %}

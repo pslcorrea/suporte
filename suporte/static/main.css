@@ -37,6 +37,8 @@ footer {
 }
 .card{
     background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
 }
 blockquote{
     font-size: 20px;
@@ -45,4 +47,8 @@ blockquote{
     margin: 10px;
     padding: 10px;
     background-color: #f9f9f9
+}
+.atendimento{
+    font-family: Roboto, sans-serif;
+    font-size: 16px
 }
