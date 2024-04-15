@@ -2,29 +2,28 @@
 
 {% block body %}
 <div class="container col col-6 mt-2 mb-5">
-  <card class="card p-3">
-    <form action="" method="post">
+    <form class="p-3 border" action="" method="post">
       {{ form.csrf_token }}
-      <legend>Atendimento</legend>
+      <legend class="titulo">Atendimento</legend>
       <fieldset>
         <div class="imput-group mt-3">
-          {{ form.cliente.label(class="label") }}
+          {{ form.cliente.label(class="label label-atendimento") }}
           {{ form.cliente(class="form-control") }}
         </div>
         <div class="imput-group mt-3">
-          {{ form.titulo.label(class="label") }}
+          {{ form.titulo.label(class="label label-atendimento") }}
           {{ form.titulo(class="form-control") }}
         </div>
         <div class="imput-group mt-3">
-          {{ form.descricao.label(class="label") }}
+          {{ form.descricao.label(class="label label-atendimento") }}
           {{ form.descricao(class="form-control") }}
         </div>
         <div class="imput-group mt-3">
-          {{ form.botaoSubmit(class="form-control btn btn-dark") }}
+          {{ form.botaoSubmit(class="form-control btn btn-dark label-botao") }}
         </div>
       </fieldset>
 
     </form>
-  </card>
+
 </div>
 {% endblock %}

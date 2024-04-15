@@ -1,9 +1,15 @@
 /* Estilos CSS podem ser adicionados aqui */
-body {
-    font-family: Arial, sans-serif;
+*{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    
 }
+body{
+    color: #023535;
+    font-family: Roboto, sans-serif;
+}
+
 header {
     background-color: #333;
     color: #fff;
@@ -21,7 +27,9 @@ nav a {
     padding: 10px 20px;
 }
 nav a:hover {
-    background-color: #ddd;
+    background-color: #008F8C;
+    color: #023535;
+    transition: 2s;
 }
 section {
     padding: 20px;
@@ -35,20 +43,73 @@ footer {
     bottom: 0;
     width: 100%;
 }
+.titulo{
+    color: #008F8C !important
+}
+.brand{
+    color: #D8FFDB   !important;
+    font-size: 20px !important;
+    font-weight: 700;
+    
+
+}
 .card{
-    background-color: #f0f0f0;
+    background-color: #023535;
     padding: 10px;
     border-radius: 10px;
 }
+.card a{
+    text-decoration: none;
+    color: #FFF;
+    padding: 10px 20px;
+}
+
+.card:hover a:hover{
+    background-color: #C7FFED;
+    text-decoration: underline;
+    color: #023535;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 2s;
+}
 blockquote{
-    font-size: 20px;
-    color: red;
-    border-left: 5px solid #ccc;
-    margin: 10px;
-    padding: 10px;
+
     background-color: #f9f9f9
 }
 .atendimento{
     font-family: Roboto, sans-serif;
     font-size: 16px
 }
+.label-atendimento{
+    color:#015958;
+}
+.label-botao{
+    color: #C7FFED
+}
+.descricao{
+    font-size: 20px;
+    color: #023535;
+    border-left: 5px solid #015958;
+    /* margin: 10px; */
+    /* padding: 10px; */
+}
+/* Color Theme Swatches in Hex */
+.Teal-and-Mint-1-hex { color: #C7FFED; }
+.Teal-and-Mint-2-hex { color: #D8FFDB; }
+.Teal-and-Mint-3-hex { color: #008F8C; }
+.Teal-and-Mint-4-hex { color: #015958; }
+.Teal-and-Mint-5-hex { color: #023535; }
+
+/* Color Theme Swatches in RGBA */
+.Teal-and-Mint-1-rgba { color: rgba(199, 255, 237, 1); }
+.Teal-and-Mint-2-rgba { color: rgba(216, 255, 219, 1); }
+.Teal-and-Mint-3-rgba { color: rgba(0, 143, 140, 1); }
+.Teal-and-Mint-4-rgba { color: rgba(1, 89, 88, 1); }
+.Teal-and-Mint-5-rgba { color: rgba(2, 53, 53, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Teal-and-Mint-1-hsla { color: hsla(160, 100, 89, 1); }
+.Teal-and-Mint-2-hsla { color: hsla(124, 100, 92, 1); }
+.Teal-and-Mint-3-hsla { color: hsla(178, 100, 28, 1); }
+.Teal-and-Mint-4-hsla { color: hsla(179, 97, 17, 1); }
+.Teal-and-Mint-5-hsla { color: hsla(180, 92, 10, 1); }
