@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_
+from sqlalchemy.orm import sessionmaker
+Session = sessionmaker()
+session = Session
 
 
 app = Flask(__name__)

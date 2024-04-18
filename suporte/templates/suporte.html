@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col col-5">
+      <h4 class="titulo">Suportes Atendidos:</h4>
+    </div>
+    <div class="col col-7">
+      <a href="{{ url_for('grafico') }}" class="btn btn-dark label-botao">Gráfico</a>
+      <a href="{{ url_for('pesquisa') }}" class="btn btn-dark label-botao">Consultar soluções</a>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    {% for cliente in clientes %}
+    <div class="col col-3">
+      <h5 class="sub-titulo">{{cliente.nome}} - <span class="total">{{cliente.atendimentos|length}}</span></h5>
+    </div>
+    {% for atendimento in cliente.atendimentos %}
+    <div class="col col-9">
+      <p>{{atendimento.titulo}}</p>
+    </div>
+
+    {% endfor %}
+
+    {% endfor %}
+    <h5 class="titulo">Total de Atendimentos - {{total_atendimentos}}</h5>
+    <hr>
+    <h4 class="titulo">Atendimentos mensais:</h4>
+    {% for result in total_mes %}
+    <h5>{{result[0]}} - {{result[1]}}</h5>
+    {% endfor %}
+  </div>
+
+
+  <!--  <hr>-->
+  <!--  {% for cliente in clientes %}-->
+  <!--  <h5 class="sub-titulo">{{cliente.nome}} - <span class="total">{{cliente.atendimentos|length}}</span></h5>-->
+  <!--  {% for atendimento in cliente.atendimentos %}-->
+  <!--  &lt;!&ndash;          <p>Este cliente tem {{cliente.atendimentos|length}} atendimentos</p>&ndash;&gt;-->
+  <!--  <p>{{atendimento.titulo}}</p>-->
+  <!--  {% endfor %}-->
+
+  <!--  {% endfor %}-->
+
+</div>
+{% endblock %}

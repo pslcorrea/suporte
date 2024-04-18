@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <div class="container">
-    <h3 class="titulo">Atendimento de Suporte</h3>
-    <hr>
+<div class="container">
+  <h3 class="titulo">Atendimento de Suporte</h3>
+  <hr>
 
 
-<section id="chamados-abertos">
+  <section id="chamados-abertos">
     <h4 class="titulo">Atendimentos</h4>
-    <div class="d-flex wrap gap-2">
+    <div class="d-flex flex-lg-wrap-reverse gap-2">
       {% for atendimento in atendimentos %}
-
-  <div class="card">
-  <a href="{{ url_for('exibirAtendimento', atendimento_id=atendimento.id) }}"><h5 class="atendimento">{{ atendimento.titulo }}</h5></a>
-    </div>
+      <div class="card">
+        <a href="{{ url_for('exibirAtendimento', atendimento_id=atendimento.id) }}"><h5 class="atendimento">{{
+          atendimento.titulo }}</h5></a>
+      </div>
       {% endfor %}
     </div>
     <p class="titulo">Lista de atendimentos ...</p>
-</section>
+  </section>
 
 
-
-  </div>
+</div>
 {% endblock %}

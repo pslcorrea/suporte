@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="container text-center">
+    <h3 class="titulo">Gráfico de Atendimentos por Mês</h3>
+    <img src="data:image/png;base64,{{ grafico_base64 }}" alt="Gráfico de Atendimentos por Mês">
+  </div>
+{% endblock %}

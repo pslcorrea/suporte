@@ -12,3 +12,7 @@ class FormAtendimento(FlaskForm):
     descricao = TextAreaField('Descrição do Chamado', validators=[DataRequired()])
     solucao = TextAreaField('Solução do Chamado')
     botaoSubmit = SubmitField('Cadastrar Chamado')
+
+class FormPesquisa(FlaskForm):
+    termo = StringField('Digite sua Consulta', validators=[DataRequired()])
+    botaoSubmit = SubmitField('Realizar Pesquisa')

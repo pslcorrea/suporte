@@ -1,10 +1,13 @@
 from suporte import database
 from datetime import datetime
 
+
+
 class Cliente(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     nome = database.Column(database.String, nullable=False)
-    atendimentos = database.relationship('Atendimento', backref='suporte', lazy=True)
+    atendimentos = database.relationship('Atendimento', backref='cliente', lazy=True)
+
 
 class Atendimento(database.Model):
     id = database.Column(database.Integer, primary_key=True)

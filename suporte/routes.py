@@ -1,7 +1,13 @@
 from flask import render_template, url_for, redirect, flash, request
 from sqlalchemy import or_, not_
+from datetime import datetime
+import matplotlib.pyplot as plt
+import io
+import base64
+
+
 from suporte import app, database
-from suporte.forms import FormCliente, FormAtendimento
+from suporte.forms import FormCliente, FormAtendimento, FormPesquisa
 from suporte.models import Cliente, Atendimento
 
 @app.route('/')
@@ -23,6 +29,7 @@ def atendimentos():
 
 @app.route('/clientes', methods=['GET', 'POST'])
 def clientes():
+    clientes = Cliente.query.all()
     form = FormCliente()
     if form.validate_on_submit():
         cliente = Cliente(nome = form.nome.data)
@@ -30,7 +37,7 @@ def clientes():
         database.session.commit()
         flash('Cliente cadastrado com sucesso!','success')
         return redirect(url_for('home'))
-    return render_template('clientes.html',form=form)
+    return render_template('clientes.html',form=form, clientes=clientes)
 
 @app.route('/exibirAtendimento/<atendimento_id>', methods=['GET','POST'])
 def exibirAtendimento(atendimento_id):
@@ -56,3 +63,53 @@ def exibirAtendimento(atendimento_id):
 def solucao():
     atendimentos = Atendimento.query.filter(or_(Atendimento.solucao.isnot(None), not_(Atendimento.solucao == ''), Atendimento.solucao != ''))
     return render_template('solucao.html', atendimentos=atendimentos)
+
+@app.route('/suporte', methods=['GET', 'POST'])
+def suporte():
+
+    clientes = Cliente.query.join(Atendimento, Cliente.id == Atendimento.id_cliente).filter(Atendimento.titulo != '').order_by(Cliente.nome).all()
+    total_atendimentos = Atendimento.query.count()
+    total_mes = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
+        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
+                      database.func.count(Atendimento.id).label('total')).all()
+    meses = [meses[0] for meses in total_mes]
+    total_mensal = [total[1] for total in total_mes]
+    print(f'Atendimentos mensal total:{meses} - {total_mensal}')
+
+    return render_template('suporte.html',clientes=clientes, total_atendimentos=total_atendimentos, total_mes=total_mes)
+
+@app.route('/grafico')
+def grafico():
+    # Consulta para obter o total de atendimentos por mês
+    resultados = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
+        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
+                      database.func.count(Atendimento.id).label('total')).all()
+    meses = [result[0] for result in resultados]
+    total_atendimentos = [result[1] for result in resultados]
+
+    # Criação do gráfico de barras
+    plt.figure(figsize=(8, 4))
+    cores = plt.get_cmap('Set3').colors
+    plt.bar(meses, total_atendimentos, color=cores)
+    plt.xlabel('Mês')
+    plt.ylabel('Total de Atendimentos')
+    plt.title('Total de Atendimentos por Mês')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Conversão do gráfico em imagem base64
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    grafico_base64 = base64.b64encode(img.getvalue()).decode()
+    img.close()
+    return render_template('grafico.html', grafico_base64=grafico_base64)
+
+@app.route('/pesquisa', methods=['GET', 'POST'])
+def pesquisa():
+    form = FormPesquisa()
+    dados_pesquisa = form.termo.data
+    atendimentos = Atendimento.query.filter(Atendimento.descricao.like(f'%{dados_pesquisa}%')).all()
+    return render_template('pesquisa.html',form=form, atendimentos=atendimentos )
+
+

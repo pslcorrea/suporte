@@ -44,7 +44,14 @@ footer {
     width: 100%;
 }
 .titulo{
+    color: #015958 !important
+}
+.sub-titulo{
     color: #008F8C !important
+}
+.total{
+    color: #015958 !important;
+    font-size: 1.1rem;
 }
 .brand{
     color: #D8FFDB   !important;

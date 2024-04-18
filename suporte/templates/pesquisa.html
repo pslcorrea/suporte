@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container text-center">
+  <form class="p-3 border" action="" method="post">
+    {{ form.csrf_token }}
+    <legend class="titulo">Pesquisa de Soluções</legend>
+    <fieldset>
+      <div class="imput-group mt-3">
+        {{ form.termo.label(class="label label-atendimento") }}
+        {{ form.termo(class="w-50 ms-3", placeholder="digite os dados a serem pesquisados!") }}
+        {{ form.botaoSubmit(class="btn btn-dark label-botao ms-2") }}
+      </div>
+
+    </fieldset>
+
+  </form>
+  <div class="row">
+    {% for atendimento in atendimentos %}
+
+    <div class="col col-3"><h6>{{atendimento.titulo}}</h6></div>
+    <div class="col col-4"><p class="text-start">{{atendimento.descricao}}</p></div>
+    <div class="col col-5"><p class="text-lg-start">{{atendimento.solucao}}</p></div>
+      {% endfor %}
+  </div>
+
+
+</div>
+
+{% endblock %}
