@@ -1,9 +1,15 @@
+import plotly.offline
 from flask import render_template, url_for, redirect, flash, request
 from sqlalchemy import or_, not_
 from datetime import datetime
 import matplotlib.pyplot as plt
 import io
 import base64
+import plotly
+import plotly.graph_objs as go
+import pandas as pd
+import plotly.express as px
+from plotly.offline import plot
 
 
 from suporte import app, database
@@ -104,6 +110,43 @@ def grafico():
     grafico_base64 = base64.b64encode(img.getvalue()).decode()
     img.close()
     return render_template('grafico.html', grafico_base64=grafico_base64)
+
+
+
+@app.route('/grafico2')
+def grafico2():
+    # Consulta para obter o total de atendimentos por mês
+    resultados = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
+        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
+                      database.func.count(Atendimento.id).label('total')).all()
+    meses = [result[0] for result in resultados]
+    total_atendimentos = [result[1] for result in resultados]
+
+    # Criação do gráfico de barras
+    data = go.Bar(x=meses, y=total_atendimentos)
+    grafico = go.Figure(data=data)
+    grafico.update_layout(title='Total de Atendimentos por Mês', xaxis_title='Mêses', yaxis_title='Total de Atendimentos')
+    grafico_div = plotly.offline.plot(grafico, auto_open=False, output_type='div')
+
+    return render_template('grafico2.html', grafico_div=grafico_div)
+
+
+@app.route('/grafico3')
+def grafico3():
+    # Consulta para obter o total de atendimentos por mês
+    resultados = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
+        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
+                      database.func.count(Atendimento.id).label('total')).all()
+
+    df = pd.DataFrame.from_records(resultados,
+      columns=['meses','atendimentos']
+    )
+
+    fig = px.bar(df,x='meses',y='atendimentos')
+
+    plot_div = plot(fig, output_type='div')
+
+    return render_template('grafico3.html',plot_div=plot_div)
 
 @app.route('/pesquisa', methods=['GET', 'POST'])
 def pesquisa():
