@@ -142,7 +142,12 @@ def grafico3():
       columns=['meses','atendimentos']
     )
 
-    fig = px.bar(df,x='meses',y='atendimentos')
+    fig = px.bar(df,x='meses',y='atendimentos', labels={'meses':'Meses',\
+        'atendimentos':'Atendimentos'}, height=500,\
+        color_discrete_sequence=px.colors.qualitative.T10, \
+        template='plotly_white',text_auto=True, \
+        title='Qtde. de Atendimentos Mensais')
+    fig.update_traces(textfont_size=20, textangle=0)
 
     plot_div = plot(fig, output_type='div')
 
@@ -152,7 +157,8 @@ def grafico3():
 def pesquisa():
     form = FormPesquisa()
     dados_pesquisa = form.termo.data
-    atendimentos = Atendimento.query.filter(Atendimento.descricao.like(f'%{dados_pesquisa}%')).all()
+    atendimentos = Atendimento.query.\
+        filter(Atendimento.descricao.like(f'%{dados_pesquisa}%')).all()
     return render_template('pesquisa.html',form=form, atendimentos=atendimentos )
 
 
