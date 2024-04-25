@@ -116,8 +116,9 @@ def grafico():
 @app.route('/grafico2')
 def grafico2():
     # Consulta para obter o total de atendimentos por mês
-    resultados = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
-        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
+    resultados = Atendimento.query.group_by(database.func.strftime\
+        ('%m-%Y', Atendimento.data_criacao)).with_entities\
+        (database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
                       database.func.count(Atendimento.id).label('total')).all()
     meses = [result[0] for result in resultados]
     total_atendimentos = [result[1] for result in resultados]
@@ -125,7 +126,8 @@ def grafico2():
     # Criação do gráfico de barras
     data = go.Bar(x=meses, y=total_atendimentos)
     grafico = go.Figure(data=data)
-    grafico.update_layout(title='Total de Atendimentos por Mês', xaxis_title='Mêses', yaxis_title='Total de Atendimentos')
+    grafico.update_layout(title='Total de Atendimentos por Mês', \
+          xaxis_title='Mêses', yaxis_title='Total de Atendimentos')
     grafico_div = plotly.offline.plot(grafico, auto_open=False, output_type='div')
 
     return render_template('grafico2.html', grafico_div=grafico_div)
@@ -134,9 +136,11 @@ def grafico2():
 @app.route('/grafico3')
 def grafico3():
     # Consulta para obter o total de atendimentos por mês
-    resultados = Atendimento.query.group_by(database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
-        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao).label('mes'),
-                      database.func.count(Atendimento.id).label('total')).all()
+    resultados = Atendimento.query.group_by\
+        (database.func.strftime('%m-%Y', Atendimento.data_criacao)). \
+        with_entities(database.func.strftime('%m-%Y', Atendimento.data_criacao)\
+          .label('mes'),
+          database.func.count(Atendimento.id).label('total')).all()
 
     df = pd.DataFrame.from_records(resultados,
       columns=['meses','atendimentos']
@@ -145,7 +149,7 @@ def grafico3():
     fig = px.bar(df,x='meses',y='atendimentos', labels={'meses':'Meses',\
         'atendimentos':'Atendimentos'}, height=500,\
         color_discrete_sequence=px.colors.qualitative.T10, \
-        template='plotly_white',text_auto=True, \
+        template='presentation',text_auto=True, \
         title='Qtde. de Atendimentos Mensais')
     fig.update_traces(textfont_size=20, textangle=0)
 
