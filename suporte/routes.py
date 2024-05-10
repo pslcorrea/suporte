@@ -148,7 +148,7 @@ def grafico3():
 
     fig = px.bar(df,x='meses',y='atendimentos', labels={'meses':'Meses',\
         'atendimentos':'Atendimentos'}, height=500,\
-        color_discrete_sequence=px.colors.qualitative.T10, \
+        color_discrete_sequence=px.colors.qualitative.Alphabet, \
         template='presentation',text_auto=True, \
         title='Qtde. de Atendimentos Mensais')
     fig.update_traces(textfont_size=20, textangle=0)
